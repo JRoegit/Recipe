@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='global.css')}}">
+</head>
+<body>
+    <script src="{{url_for('static',filename='createrecipe.js')}}"></script>
+    <div class="flex flex-col items-center h-full">
+        <div class="w-full border-b-2 shadow-sm h-12">
+            <div class="mx-auto w-full h-full max-w-screen-md flex flex-row gap-8 font-semibold">
+                <div class="my-auto">Logo</div>
+                <div class="my-auto ml-auto">Sign In</div>
+            </div>
+        </div>
+        <div>
+            <form enctype="multipart/form-data" action="/recipes/form" method="post" class="flex flex-col gap-4 my-12">
+                <div class="flex flex-col gap-2 border-b-2 border-b-gray-200 w-full">
+                    <input type="text" name="title" placeholder="Title" class="p-2">
+                    <input type="text" name="story" placeholder="Description" class="p-2">
+                    <div class="flex flex-row ">
+                        <div class="w-1/2 flex flex-row gap-2 p-2">
+                            <div class="my-auto" >Category</div>
+                            <select class="w-full border-2 border-gray-100" name="category" id="category">
+                                <option value="snack">Snack</option>
+                                <option value="breakfast">Breakfast</option>
+                                <option value="lunch">Lunch</option>
+                                <option value="dinner">Dinner</option>
+                            </select>
+                        </div>
+                        <input type="file" name="photo" class="p-2 w-1/2">
+                    </div>
+                </div>
+                <div class="border-b-2 border-b-gray-100 p-2">
+                    <input type="number" name="servings" placeholder="Servings" class="">
+                    <input type="number" name="prep_time" placeholder="Prep Time (Mins)">
+                    <input type="number" name="cook_time"placeholder="Cook Time (Mins)">
+                </div>
+
+                <div class="flex flex-row font-medium text-lg w-full px-2 pt-2">
+                    <div>Ingredients</div>
+                    <button type="button" onclick="create_ingredient()" class="ml-auto border-2 border-gray-200 rounded-md px-2 py-1 hover:bg-gray-100">Add Ingredient</button>
+                </div>
+                <div class="flex flex-col gap-2 border-b-2 border-b-gray-100 p-2" id="ingredientlist"></div>
+                <div class="flex flex-row font-medium text-lg w-full px-2 pt-2">
+                    <div>Directions</div>
+                    <button type="button" onclick="create_direction()" class="ml-auto border-2 border-gray-200 rounded-md px-2 py-1 hover:bg-gray-100">Add Direction</button>
+                </div>
+                <div class="flex flex-col gap-2 border-b-2 border-b-gray-100 p-2" id="directionlist"></div>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

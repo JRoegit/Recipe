@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='global.css')}}">
+</head>
+<body>
+    <h1>Image Display</h1>
+    {% if image_src %}
+        <img class="object-contain w-52 h-52" src="{{ image_src }}" alt="Image" >
+    {% else %}
+        <p>Image not found.</p>
+    {% endif %}
+</body>
+</html>

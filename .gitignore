@@ -1,0 +1,9 @@
+recipes.db
+
+app/static/output.css
+
+app/__pycache__
+
+app/api/__pycache__
+
+node_modules
