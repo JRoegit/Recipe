@@ -127,3 +127,15 @@ def create_recipe_form(data,image ,user_id):
         return False
     finally:
         conn.close()
+
+def get_ingredients(recipe_id):
+    conn, cursor = get_db_connection(True)
+    ingredients = cursor.execute(f"SELECT ingredient FROM INGREDIENTS WHERE recipe_id = {recipe_id}").fetchall()
+    conn.close()
+    return ingredients
+
+def get_directions(recipe_id):
+    conn, cursor = get_db_connection(True)
+    directions = cursor.execute(f"SELECT step_description FROM DIRECTIONS WHERE recipe_id = {recipe_id}").fetchall()
+    conn.close()
+    return directions

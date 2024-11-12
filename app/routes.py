@@ -15,8 +15,16 @@ def about():
 @main_bp.route('/recipe/<int:recipe_id>',methods=['GET'])
 def recipe_page(recipe_id):
     recipe = fetch_recipe(recipe_id)
-    
-    encoded_image = base64.b64encode(recipe['photo']).decode('utf-8')
-    image_src = f"data:image/jpeg;base64,{encoded_image}"
+    if recipe:
+        recipeAuthor = fetch_user(recipe['user_id'])
+        ingredients = get_ingredients(recipe['recipe_id'])
+        directions = get_directions(recipe['recipe_id'])
+        encoded_image = base64.b64encode(recipe['photo']).decode('utf-8')
 
-    return render_template('recipe.html',image_src=image_src)
+        image_src = f"data:image/jpeg;base64,{encoded_image}"
+
+        del recipe['photo']
+        print(recipe)
+        return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src)
+    else:
+        return render_template('recipe.html')

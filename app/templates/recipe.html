@@ -8,11 +8,73 @@
     <link rel="stylesheet" href="{{url_for('static',filename='global.css')}}">
 </head>
 <body>
-    <h1>Image Display</h1>
-    {% if image_src %}
-        <img class="object-contain w-52 h-52" src="{{ image_src }}" alt="Image" >
+    
+    <!-- Content Container -->
+    {% if recipe and image_src and recipeAuthor and ingredients and directions%}
+    <div class="flex flex-col gap-3 max-w-screen-md mx-10 md:mx-auto ">
+        <!-- Title, description, author details -->
+        <h1 class="text-6xl font-medium">{{recipe.title}}</h1>
+        <div class="flex flex-row gap-3">
+            <div>5.0 (1000)</div>
+            <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
+            <div>500 Reviews</div>
+            <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
+            <div>100 Photos</div>
+        </div>
+        <div>{{recipe.story}}</div>
+        <div class="flex flex-row gap-3">
+            <div>Submitted by <span class="font-medium">{{recipeAuthor.username}}</span></div>
+            <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
+            <div class="text-gray-500"> Posted on {{recipe.date_added}}</div>
+        </div>
+        <!-- Image and timings -->
+        <div class="w-1/2 h-fit flex flex-col gap-3">
+            <img class="object-contain rounded-md" src="{{ image_src }}" alt="Image" >
+            <div class="border-2 border-black rounded-md">
+                <div class="flex flex-col md:flex-row">
+                    <div class="flex flex-col w-1/2 m-2">
+                        <div class="font-medium">Prep Time:</div>
+                        <div>{{recipe.prep_time}} mins</div>
+                    </div>
+                    <div class="flex flex-col w-1/2 m-2">
+                        <div class="font-medium">Cook Time:</div>
+                        <div>{{recipe.cook_time}} mins</div>
+                    </div>
+                </div>
+                <div class="flex flex-col md:flex-row">
+                    <div class="flex flex-col w-1/2 m-2">
+                        <div class="font-medium">Total Time:</div>
+                        <div>{{recipe.cook_time + recipe.prep_time}} mins</div>
+                    </div>
+                    <div class="flex flex-col w-1/2 m-2">
+                        <div class="font-medium">Servings:</div>
+                        <div>{{recipe.servings}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Ingredients Section -->
+        <div>
+            <h1 class="text-4xl font-medium">Ingredients</h1>
+            <ul class="mt-4 ml-8 list-disc list-inside">
+                {% for ingredient in ingredients %}
+                <li>{{ingredient.ingredient}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- Directions Section -->
+        <div>
+            <h1 class="text-4xl font-medium">Direcitons</h1>
+            <ul class="mt-4 ml-8 list-disc list-inside">
+                {% for direction in directions %}
+                <li class="">{{direction.step_description}}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
     {% else %}
-        <p>Image not found.</p>
+        <p>Content not found.</p>
     {% endif %}
+    
 </body>
 </html>
