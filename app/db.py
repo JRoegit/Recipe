@@ -1,3 +1,4 @@
+import base64
 from .utils import *
 import json
 from datetime import datetime
@@ -139,3 +140,34 @@ def get_directions(recipe_id):
     directions = cursor.execute(f"SELECT step_description FROM DIRECTIONS WHERE recipe_id = {recipe_id}").fetchall()
     conn.close()
     return directions
+
+def create_review(recipe_id,user_id,image ,data ):
+    try:
+        conn, cursor = get_db_connection(True)
+        cursor.execute("INSERT INTO REVIEWS (rating, photo, review, user_id, recipe_id) VALUES (?,?,?,?,?)",(
+            data['rating'],
+            image,
+            data['review'],
+            user_id,
+            recipe_id
+        ))
+        conn.commit()
+        return True
+    except sqlite3.Error as e:
+        print("An error occured:",e)
+        return False
+    finally:
+        conn.close()
+
+def fetch_reviews():
+    try:
+        conn, cursor = get_db_connection(True)
+        reviews = cursor.execute('SELECT * FROM REVIEWS').fetchall()
+        encoded_image = base64.b64encode(reviews['photo']).decode('utf-8')
+        image_src = f"data:image/jpeg;base64,{encoded_image}"
+        reviews['photo'] = image_src
+        return reviews
+    except:
+        return {"error" : "an error occured"}
+    finally:
+        conn.close()

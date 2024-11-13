@@ -35,4 +35,15 @@ CREATE TABLE IF NOT EXISTS INGREDIENTS(
     FOREIGN KEY (recipe_id) REFERENCES RECIPES(recipe_id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS REVIEWS(
+    review_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    rating INT, -- Stored as num 1..10 to allow decimal representation by dividing by 2
+    photo BLOB,
+    review VARCHAR,
+    user_id INTEGER,
+    recipe_id INTEGER,
+    FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE
+    FOREIGN KEY (recipe_id) REFERENCES RECIPES(recipe_id) ON DELETE CASCADE
+);
+
 INSERT INTO USERS (username, password) VALUES ('Jacob', "ruGer123")

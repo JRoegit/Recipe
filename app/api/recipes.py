@@ -46,6 +46,6 @@ def recipe_form():
 
     success = create_recipe_form(form,image,1)
     if success:
-        return form, 200
+        return form, 201
     else:
         return {"error" : "Something went wrong."}, 400
