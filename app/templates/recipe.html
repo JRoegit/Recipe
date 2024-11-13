@@ -6,8 +6,10 @@
     <title>Document</title>
     <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='global.css')}}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=print" />
 </head>
 <body>
+    <script src="{{url_for('static',filename='recipe.js')}}"></script>
     
     <!-- Content Container -->
     {% if recipe and image_src and recipeAuthor and ingredients and directions%}
@@ -15,11 +17,11 @@
         <!-- Title, description, author details -->
         <h1 class="text-6xl font-medium">{{recipe.title}}</h1>
         <div class="flex flex-row gap-3">
-            <div>5.0 (1000)</div>
+            <div class="border-b-2 border-violet-400">5.0 (1000)</div>
             <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
-            <div>500 Reviews</div>
+            <div class="border-b-2 border-violet-400">500 Reviews</div>
             <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
-            <div>100 Photos</div>
+            <div class="border-b-2 border-violet-400">100 Photos</div>
         </div>
         <div>{{recipe.story}}</div>
         <div class="flex flex-row gap-3">
@@ -27,10 +29,15 @@
             <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
             <div class="text-gray-500"> Posted on {{recipe.date_added}}</div>
         </div>
+        <div class="flex flex-row gap-1">
+            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">I made this!</button>
+            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">Print</button>
+            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">Share</button>
+        </div>
         <!-- Image and timings -->
         <div class="w-1/2 h-fit flex flex-col gap-3">
-            <img class="object-contain rounded-md" src="{{ image_src }}" alt="Image" >
-            <div class="border-2 border-black rounded-md">
+            <img class="object-contain rounded-md shadow-lg" src="{{ image_src }}" alt="Image" >
+            <div class="border-4  border-violet-400 rounded-md">
                 <div class="flex flex-col md:flex-row">
                     <div class="flex flex-col w-1/2 m-2">
                         <div class="font-medium">Prep Time:</div>
@@ -54,9 +61,14 @@
             </div>
         </div>
         <!-- Ingredients Section -->
-        <div>
+        <div class="flex flex-col gap-2">
             <h1 class="text-4xl font-medium">Ingredients</h1>
-            <ul class="mt-4 ml-8 list-disc list-inside">
+            <div class="flex flex-row font-medium">
+                <button onclick="switchButton(1)" id="defaultButton" class="border-b-2 border-l-2 border-t-2 border-r-0 rounded-l-md border-violet-400 px-3 py-1 bg-violet-400 text-white" disabled>1x</button>
+                <button onclick="switchButton(2)" id="doubleButton" class="border-2 border-violet-400 px-3 py-1 hover:bg-gray-50">2x</button>
+                <button onclick="switchButton(4)" id="quadButton" class="border-b-2 border-l-0 border-t-2 border-r-2 rounded-r-md border-violet-400 px-3 py-1 hover:bg-gray-50">4x</button>
+            </div>
+            <ul class="ml-8 list-disc list-inside" id="ingredientList">
                 {% for ingredient in ingredients %}
                 <li>{{ingredient.ingredient}}</li>
                 {% endfor %}
