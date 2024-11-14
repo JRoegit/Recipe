@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.db import *
+from app.data.users import *
 
 users_bp = Blueprint('users', __name__)
 
@@ -11,6 +11,7 @@ def get_users():
 @users_bp.route('/users/<int:user_id>',methods=['GET'])
 def get_user(user_id):
     user = fetch_user(user_id)
+    print(user)
     if user:
         return user, 200
     else:

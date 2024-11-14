@@ -1,7 +1,6 @@
-import base64
-from .utils import *
-import json
 from datetime import datetime
+import sqlite3
+from ..utils import get_db_connection
 
 def fetch_recipes():
     conn, cursor = get_db_connection(True)
@@ -50,39 +49,6 @@ def remove_recipe(recipe_id):
     conn.close()
     return deleted_recipe
 
-def create_user(data):
-    conn, cursor = get_db_connection()
-    cursor.execute(f"INSERT INTO USERS (username, password) VALUES (?,?)", (data['username'], data['password']))
-    conn.commit()
-    conn.close()
-    return data
-
-def fetch_users():
-    conn, cursor = get_db_connection(True)
-    users = cursor.execute("SELECT * FROM USERS").fetchall()
-    conn.close()
-    return users
-
-def fetch_user(user_id):
-    conn, cursor = get_db_connection(True)
-    user = cursor.execute(f"SELECT * FROM USERS WHERE user_id = {user_id}").fetchone()
-    conn.close()
-    return user
-
-def update_user(data, user_id):
-    conn, cursor = get_db_connection()
-    cursor.execute(f"UPDATE USERS SET username = '{data['username']}, password = '{data['password']}' WHERE user_id = {user_id}")
-    conn.commit()
-    conn.close()
-    return data
-
-def remove_user(user_id):
-    conn, cursor = get_db_connection(True)
-    deleted_user = cursor.execute(f"SELECT * FROM USERS WHERE user_id = {user_id}").fetchone()
-    cursor.execute(f"DELETE FROM USERS WHERE user_id = {user_id}")
-    conn.commit()
-    conn.close()
-    return deleted_user
 
 def create_recipe_form(data,image ,user_id):
     ingredients = []
@@ -140,34 +106,3 @@ def get_directions(recipe_id):
     directions = cursor.execute(f"SELECT step_description FROM DIRECTIONS WHERE recipe_id = {recipe_id}").fetchall()
     conn.close()
     return directions
-
-def create_review(recipe_id,user_id,image ,data ):
-    try:
-        conn, cursor = get_db_connection(True)
-        cursor.execute("INSERT INTO REVIEWS (rating, photo, review, user_id, recipe_id) VALUES (?,?,?,?,?)",(
-            data['rating'],
-            image,
-            data['review'],
-            user_id,
-            recipe_id
-        ))
-        conn.commit()
-        return True
-    except sqlite3.Error as e:
-        print("An error occured:",e)
-        return False
-    finally:
-        conn.close()
-
-def fetch_reviews():
-    try:
-        conn, cursor = get_db_connection(True)
-        reviews = cursor.execute('SELECT * FROM REVIEWS').fetchall()
-        encoded_image = base64.b64encode(reviews['photo']).decode('utf-8')
-        image_src = f"data:image/jpeg;base64,{encoded_image}"
-        reviews['photo'] = image_src
-        return reviews
-    except:
-        return {"error" : "an error occured"}
-    finally:
-        conn.close()

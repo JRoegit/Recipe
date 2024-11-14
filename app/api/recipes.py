@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from app.db import *
+from app.data.recipes import *
 
 recipes_bp = Blueprint('recipes', __name__)
 

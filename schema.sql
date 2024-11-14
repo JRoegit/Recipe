@@ -1,3 +1,5 @@
+DROP TABLE REVIEWS;
+
 CREATE TABLE IF NOT EXISTS USERS(
     user_id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR NOT NULL,
@@ -38,8 +40,8 @@ CREATE TABLE IF NOT EXISTS INGREDIENTS(
 CREATE TABLE IF NOT EXISTS REVIEWS(
     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
     rating INT, -- Stored as num 1..10 to allow decimal representation by dividing by 2
-    photo BLOB,
     review VARCHAR,
+    review_date DATE, 
     user_id INTEGER,
     recipe_id INTEGER,
     FOREIGN KEY (user_id) REFERENCES USERS(user_id) ON DELETE CASCADE

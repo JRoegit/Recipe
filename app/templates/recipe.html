@@ -12,7 +12,7 @@
     <script src="{{url_for('static',filename='recipe.js')}}"></script>
     
     <!-- Content Container -->
-    {% if recipe and image_src and recipeAuthor and ingredients and directions%}
+    {% if recipe and image_src and recipeAuthor and ingredients and directions and recipe_id %}
     <div class="flex flex-col gap-3 max-w-screen-md mx-10 md:mx-auto ">
         <!-- Title, description, author details -->
         <h1 class="text-6xl font-medium">{{recipe.title}}</h1>
@@ -84,7 +84,7 @@
             </ul>
         </div>
         <!-- Review section -->
-        <form class="flex flex-col gap-4 mx-auto border-8 rounded-md border-violet-400 p-4 w-full md:w-1/2">
+        <form class="flex flex-col gap-4 mx-auto border-8 rounded-md border-violet-400 p-4 w-full md:w-1/2" method="post" enctype="multipart/form-data" action="/review/{{recipe_id}}">
             <h1 class="text-2xl font-medium">{{recipe.title}}</h1>
             <h2 class="text-lg ">Rating</h6>
             <div class="flex flex-row">
@@ -107,6 +107,7 @@
             </div>
             <h2 class="text-lg">Review</h2>
             <textarea name="review" class="border-2"></textarea>
+            <button type="submit" class="mx-auto w-1/2 bg-violet-400 hover:bg-violet-500 text-white font-medium px-2 py-1">Submit Review</button>
             <div class="border-b-2 border-gray-200 w-full"></div>
             <div class="flex flex-row gap-2 mx-auto">
                 <img class="size-8" id="avgstar1" src="{{url_for('static', filename='starEmpty.png')}}">

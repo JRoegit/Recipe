@@ -1,6 +1,7 @@
 import base64
 from flask import Blueprint, jsonify, render_template
-from .db import *
+from .data.users import *
+from .data.recipes import *
 
 main_bp = Blueprint('main', __name__)
 
@@ -25,6 +26,6 @@ def recipe_page(recipe_id):
 
         del recipe['photo']
         print(recipe)
-        return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src)
+        return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src, recipe_id=recipe_id)
     else:
         return render_template('recipe.html')
