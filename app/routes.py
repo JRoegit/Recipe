@@ -55,6 +55,12 @@ def recipe_page(recipe_id):
 
         image_src = f"data:image/jpeg;base64,{encoded_image}"
 
+        totalScore = 0
+        for review in reviews:
+            if review['rating']:
+                totalScore += int(review['rating'])
+        
+        print(totalScore)
         del recipe['photo']
         print(recipe)
         return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src, recipe_id=recipe_id, reviews=reviews)

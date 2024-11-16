@@ -25,10 +25,9 @@ def fetch_reviews(recipe_id):
     try:
         conn, cursor = get_db_connection(True)
         reviews = cursor.execute(f'SELECT * FROM REVIEWS LEFT JOIN USERS ON REVIEWS.user_id = USERS.user_id WHERE recipe_id = {recipe_id}').fetchall()
-        print("fetch successful")
-        print(reviews)
         return reviews
-    except:
+    except sqlite3.Error as e:
+        print("An error occured:",e)
         return {"error" : "an error occured"}
     finally:
         conn.close()

@@ -11,17 +11,32 @@
 <body>
     <script src="{{url_for('static',filename='recipe.js')}}"></script>
     
+    {% with messages = get_flashed_messages(category_filter=["message"]) %}
+        {% if messages %}
+            <ul class="bg-green-300 border-2 border-green-500 px-2 py-1 w-full rounded-md text-center">
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
     <!-- Content Container -->
     {% if recipe and image_src and recipeAuthor and ingredients and directions and recipe_id %}
     <div class="flex flex-col gap-3 max-w-screen-md mx-10 md:mx-auto ">
         <!-- Title, description, author details -->
         <h1 class="text-6xl font-medium">{{recipe.title}}</h1>
         <div class="flex flex-row gap-3">
-            <div class="border-b-2 border-violet-400">5.0 (1000)</div>
+            <div class="flex flex-row gap-2 my-auto">
+                <img class="size-6" id="avgstar11" src="{{url_for('static', filename='starEmpty.png')}}">
+                <img class="size-6" id="avgstar22" src="{{url_for('static', filename='starEmpty.png')}}">
+                <img class="size-6" id="avgstar33" src="{{url_for('static', filename='starEmpty.png')}}">
+                <img class="size-6" id="avgstar44" src="{{url_for('static', filename='starEmpty.png')}}">
+                <img class="size-6" id="avgstar55" src="{{url_for('static', filename='starEmpty.png')}}">
+            </div>
+            <div class="border-b-2 border-violet-400" id="avgRating">5.0 (1000)</div>
             <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
-            <div class="border-b-2 border-violet-400">500 Reviews</div>
-            <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
-            <div class="border-b-2 border-violet-400">100 Photos</div>
+            <div class="border-b-2 border-violet-400" id="totalReviews">500 Reviews</div>
+            
         </div>
         <div>{{recipe.story}}</div>
         <div class="flex flex-row gap-3">
@@ -63,11 +78,11 @@
         <!-- Ingredients Section -->
         <div class="flex flex-col gap-2">
             <h1 class="text-4xl font-medium">Ingredients</h1>
-            <div class="flex flex-row font-medium">
+            <!-- <div class="flex flex-row font-medium">
                 <button onclick="switchButton(1)" id="defaultButton" class="border-b-2 border-l-2 border-t-2 border-r-0 rounded-l-md border-violet-400 px-3 py-1 bg-violet-400 text-white" disabled>1x</button>
                 <button onclick="switchButton(2)" id="doubleButton" class="border-2 border-violet-400 px-3 py-1 hover:bg-gray-50">2x</button>
                 <button onclick="switchButton(4)" id="quadButton" class="border-b-2 border-l-0 border-t-2 border-r-2 rounded-r-md border-violet-400 px-3 py-1 hover:bg-gray-50">4x</button>
-            </div>
+            </div> -->
             <ul class="ml-8 list-disc list-inside" id="ingredientList">
                 {% for ingredient in ingredients %}
                 <li>{{ingredient.ingredient}}</li>
@@ -88,7 +103,7 @@
             <h1 class="text-2xl font-medium">{{recipe.title}}</h1>
             <h2 class="text-lg ">Rating</h6>
             <div class="flex flex-row">
-                <input type="number" name="rating" hidden id="rating">
+                <input type="number" name="rating" hidden id="rating" value="1">
                 <button class="size-10" type="button" onclick="starReview(1)" onmouseover="starHover(1)" onmouseout="starHoverEnd()">
                     <img id="star1" src="{{url_for('static', filename='starEmpty.png')}}">
                 </button>

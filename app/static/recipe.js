@@ -1,12 +1,16 @@
 const emptyStar = "/static/starEmpty.png"
 const fullStar = "/static/starFull.png"
 
+let urlSplit = window.location.href.split('/')
+const recipe_id = urlSplit[urlSplit.length - 1]
+console.log(recipe_id)
+
 let ratings = [
-    4,
-    4,
-    3,
-    2,
-    1
+    0,
+    0,
+    0,
+    0,
+    0
 ]
 
 let starState = []
@@ -124,15 +128,26 @@ function setAvgStars(avg){
         document.getElementById('avgstar4'),
         document.getElementById('avgstar5') 
     ]
+    otherStars = [
+        document.getElementById('avgstar11'),
+        document.getElementById('avgstar22'),
+        document.getElementById('avgstar33'),
+        document.getElementById('avgstar44'),
+        document.getElementById('avgstar55') 
+    ]
     for(let i = 0; i < stars.length ; i++){
         if(i < avg){
             stars[i].src = fullStar
+            otherStars[i].src = fullStar
         }
     }
 }
 
 // format [[violet,grey,text]]
-function setupAvgReviews(){
+async function setupAvgReviews(){
+    const avgRating = document.getElementById('avgRating')
+    const totalReviews = document.getElementById('totalReviews')
+    
     bars = [
         [
             document.getElementById('starbarv5'),
@@ -160,7 +175,19 @@ function setupAvgReviews(){
             document.getElementById('starbar1')
         ]
     ]
-
+    try {
+        const response = await fetch('/review/'.concat(recipe_id))
+        const json = await response.json()
+        for(review of json){
+            rating = parseInt(review.rating)
+            if (rating != ""){
+                ratings[5 - rating] += 1
+            }
+        }
+    } catch(err) {
+        console.log(err.message)
+    }
+    
     total = ratings.reduce(add, 0)
 
     let avg = 0
@@ -170,8 +197,10 @@ function setupAvgReviews(){
     avg /= total
     console.log(avg)
 
+    avgRating.textContent = `${Math.round(avg * 10) / 10} (${total})`
+    totalReviews.textContent = `${total} Reviews`
     setAvgStars(Math.round(avg))
-
+    
     for(let i = 0; i < ratings.length; i++){
         let amount = ratings[i] / total
         let violetamount = Math.floor(200 * amount)
