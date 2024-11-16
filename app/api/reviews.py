@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify, redirect, request, url_for
 from app.data.reviews import *
 
 review_bp = Blueprint('review', __name__)
@@ -9,9 +9,9 @@ def add_review(recipe_id):
     user_id = 1
     data = request.form.to_dict()
     success = create_review(recipe_id,user_id,data)
-    # Should return a redirect... this is cringe
+    # TODO Should return a redirect
     if success:
-        return data, 201
+        return redirect(url_for(f"/recipe/{recipe_id}"))
     else:
         return {"error : failed to create review"}, 400
     

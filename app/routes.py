@@ -2,6 +2,7 @@ import base64
 from flask import Blueprint, jsonify, render_template
 from .data.users import *
 from .data.recipes import *
+from .data.reviews import *
 
 main_bp = Blueprint('main', __name__)
 
@@ -16,6 +17,7 @@ def about():
 @main_bp.route('/recipe/<int:recipe_id>',methods=['GET'])
 def recipe_page(recipe_id):
     recipe = fetch_recipe(recipe_id)
+    reviews = fetch_reviews(recipe_id)
     if recipe:
         recipeAuthor = fetch_user(recipe['user_id'])
         ingredients = get_ingredients(recipe['recipe_id'])
@@ -26,6 +28,6 @@ def recipe_page(recipe_id):
 
         del recipe['photo']
         print(recipe)
-        return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src, recipe_id=recipe_id)
+        return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src, recipe_id=recipe_id, reviews=reviews)
     else:
         return render_template('recipe.html')
