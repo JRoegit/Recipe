@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{url_for('static',filename='output.css')}}" rel="stylesheet">
+    <title>Sign In</title>
+</head>
+
+<body class="bg-gray-200">
+    <div class="flex flex-col items-center justify-center center">
+
+        <!-- Error Messages -->
+        {% with messages = get_flashed_messages(category_filter=["message"]) %}
+            {% if messages %}
+                <ul class="bg-green-300 border-2 border-green-500 px-2 py-1 w-full rounded-md text-center">
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST" class="flex flex-col gap-4 items-center px-6 py-4 bg-white rounded-md fixed inset-0 w-fit h-fit m-auto">
+            <h1 class="font-bold text-2xl">Sign In</h1>
+
+            <!-- Error Messages -->
+            {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                {% if errors %}
+                    <ul class="bg-red-300 border-2 border-red-500 px-2 py-1 w-full rounded-md text-center">
+                        {% for error in errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Input Username and Password -->
+            <input type="text" name="username" required class="rounded-md w-full border-2 px-2 py-1 border-gray-200" placeholder="Username">
+            <input type="password" name="password" required class="rounded-md w-full border-2 px-2 py-1 border-gray-200" placeholder="Password">
+            <button type="submit" class="w-full bg-violet-400 hover:bg-violet-500 text-white font-bold py-2 rounded-md">Sign In</button>
+            <div class="border-b-2 border-gray-200 w-full h-1"></div>
+            <div>
+                Don't have an account? <a href="{{ url_for('main.signup_page') }}" class="text-violet-400 font-medium">Sign up</a>
+            </div>
+
+        </form>
+
+        {% if username and email and password %}
+            <h2>Your username: {{ username }}</h2>
+            <h2>Your password: {{ password }}</h2>
+        {% endif %}
+        
+    </div>
+</body>
+</html>
