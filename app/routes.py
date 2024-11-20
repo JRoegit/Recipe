@@ -7,14 +7,23 @@ from .data.reviews import *
 
 main_bp = Blueprint('main', __name__)
 
-@main_bp.route('/')
+@main_bp.route('/', methods=['GET'])
 def home():
-    return jsonify(message="Welcome")
+    username = session.get("username")
+    if username:
+        return render_template('index.html', username=username)
+    return render_template('index.html')
+
 
 @main_bp.route('/createrecipe')
 def about():
-    return render_template('createrecipe.html')
+    userid = session.get("user_id")
+    if userid:
+        return render_template('createrecipe.html')
+    flash("Must be logged in to create a recipe.")
+    return render_template('index.html')
 
+# Probably add some hashing here, storing raw passwords is a no go for sure.
 @main_bp.route('/signin', methods=['GET','POST'])
 def signin_page():
     if request.method == 'POST':
@@ -55,14 +64,13 @@ def recipe_page(recipe_id):
 
         image_src = f"data:image/jpeg;base64,{encoded_image}"
 
-        totalScore = 0
+        numReviews = len(reviews)
+        avgReview = 0
         for review in reviews:
             if review['rating']:
-                totalScore += int(review['rating'])
-        
-        print(totalScore)
+                avgReview += int(review['rating'])
+        avgReview 
         del recipe['photo']
-        print(recipe)
         return render_template('recipe.html',recipe=recipe, ingredients=ingredients, directions=directions, recipeAuthor=recipeAuthor,image_src=image_src, recipe_id=recipe_id, reviews=reviews)
     else:
         return render_template('recipe.html')

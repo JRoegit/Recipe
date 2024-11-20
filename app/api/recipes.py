@@ -49,3 +49,8 @@ def recipe_form():
         return form, 201
     else:
         return {"error" : "Something went wrong."}, 400
+
+# Some kind of searching route based on text inputs
+# When someone searches for a recipe by name, could seperate the search item by spaces, and store each part as a 'token'
+# Query for each token, starting with all tokens together, then tokens.length - 1, then tokens.length - 2... untill we reach
+# the final token, combine all results, and serve back to the browser to render.
