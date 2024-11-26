@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify, request
+import base64
+from flask import Blueprint, jsonify, render_template, request
 from app.data.recipes import *
 
 recipes_bp = Blueprint('recipes', __name__)
@@ -54,3 +55,15 @@ def recipe_form():
 # When someone searches for a recipe by name, could seperate the search item by spaces, and store each part as a 'token'
 # Query for each token, starting with all tokens together, then tokens.length - 1, then tokens.length - 2... untill we reach
 # the final token, combine all results, and serve back to the browser to render.
+@recipes_bp.route('/recipes/search',methods=['POST'])
+def recipe_search():
+    form = request.form.to_dict()
+    searchParams = form['search']
+    print(form.keys())
+    print(searchParams)
+    search_results = search_recipes(searchParams, 20)
+    for result in search_results:
+        encoded_image = base64.b64encode(result['photo']).decode('utf-8')
+        result['photo'] = f"data:image/jpeg;base64,{encoded_image}"
+
+    return render_template('search.html', results=search_results)

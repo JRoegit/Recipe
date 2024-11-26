@@ -106,3 +106,16 @@ def get_directions(recipe_id):
     directions = cursor.execute(f"SELECT step_description FROM DIRECTIONS WHERE recipe_id = {recipe_id}").fetchall()
     conn.close()
     return directions
+
+def search_recipes(paramString,numResults = 1):
+    tokens = paramString.split(" ")
+    conn, cursor = get_db_connection(True)
+    query = f"SELECT * FROM RECIPES WHERE title like '%{paramString}%'"
+    for token in tokens:
+        query += f" or title like '%{token}%'" 
+    query += f" LIMIT {numResults}"
+    print(query)
+    recipes = cursor.execute(query).fetchall()
+    conn.close()
+    return recipes 
+    

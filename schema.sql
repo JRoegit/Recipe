@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS INGREDIENTS(
 
 CREATE TABLE IF NOT EXISTS REVIEWS(
     review_id INTEGER PRIMARY KEY AUTOINCREMENT,
-    rating INT, -- Stored as num 1..10 to allow decimal representation by dividing by 2
+    rating INT,
     review VARCHAR,
     review_date DATE, 
     user_id INTEGER,
