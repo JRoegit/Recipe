@@ -65,5 +65,5 @@ def recipe_search():
     for result in search_results:
         encoded_image = base64.b64encode(result['photo']).decode('utf-8')
         result['photo'] = f"data:image/jpeg;base64,{encoded_image}"
-
-    return render_template('search.html', results=search_results)
+    
+    return render_template('search.html', results=search_results, query=searchParams)

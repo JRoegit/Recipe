@@ -35,8 +35,7 @@
             </div>
             <div class="border-b-2 border-violet-400" id="avgRating">5.0 (1000)</div>
             <div class="border-l-2 border-gray-200 w-1 h-6 my-auto"> </div>
-            <div class="border-b-2 border-violet-400" id="totalReviews">500 Reviews</div>
-            
+            <a class="border-b-2 border-violet-400" id="totalReviews" href="#reviews">500 Reviews</a>
         </div>
         <div>{{recipe.story}}</div>
         <div class="flex flex-row gap-3">
@@ -45,8 +44,8 @@
             <div class="text-gray-500"> Posted on {{recipe.date_added}}</div>
         </div>
         <div class="flex flex-row gap-1">
-            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">I made this!</button>
-            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">Print</button>
+            <a class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4" href="#reviews">I made this!</a>
+            <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4" onclick="window.print()">Print</button>
             <button class="bg-violet-400 hover:bg-violet-500 font-medium text-white py-3 px-4">Share</button>
         </div>
         <!-- Image and timings -->
@@ -91,7 +90,7 @@
         </div>
         <!-- Directions Section -->
         <div>
-            <h1 class="text-4xl font-medium">Direcitons</h1>
+            <h1 class="text-4xl font-medium">Directions</h1>
             <ul class="mt-4 ml-8 list-disc list-inside">
                 {% for direction in directions %}
                 <li class="">{{direction.step_description}}</li>
@@ -99,7 +98,7 @@
             </ul>
         </div>
         <!-- Review section -->
-        <form class="flex flex-col gap-4 border-8 rounded-md border-violet-400 p-4 w-full md:w-2/3" method="post" enctype="multipart/form-data" action="/review/{{recipe_id}}">
+        <form class="flex flex-col gap-4 border-8 rounded-md border-violet-400 p-4 w-full md:w-2/3" method="post" enctype="multipart/form-data" action="/review/{{recipe_id}}"  id="reviews">
             <h1 class="text-2xl font-medium">{{recipe.title}}</h1>
             <h2 class="text-lg ">Rating</h6>
             <div class="flex flex-row">

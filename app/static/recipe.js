@@ -216,4 +216,18 @@ async function setupAvgReviews(){
     }
 }
 
+function add_scoll_anims(){
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+    
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
+
+addEventListener('DOMContentLoaded',add_scoll_anims)
 addEventListener('DOMContentLoaded',setupAvgReviews)

@@ -25,18 +25,25 @@
         </div>
     </div>
     <!-- Content Container -->
-    <div class="mx-auto w-full h-full max-w-screen-lg grid grid-cols-4 gap-4 font-semibold pt-10">
-            {% if results %}
-                {% for result in results %}
-                    <div class="flex flex-col rounded-md border-2 border-gray-400">
-                        <img class="object-cover rounded-md w-full h-44" src="{{ result['photo'] }}" alt="Image" >
-                        <div class="flex flex-col p-2 ">
-                            <div class="font-light text-gray-400">{{result['category']}}</div>
-                            <div class="font-medium ">{{result['title']}}</div>
-                        </div>
-                    </div>
-                {% endfor %}
-            {% endif %}
+    <div class="mx-auto w-full h-full max-w-screen-lg flex flex-col p-4">
+        {% if query %}
+        <div class="font-bold text-xl">
+            Results for <span class="font-normal">{{query}}</span> :
+        </div>
+        {% endif %}
+        <div class="mx-auto w-full h-full max-w-screen-lg grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 font-semibold pt-4">
+                {% if results %}
+                    {% for result in results %}
+                        <a class="flex flex-col rounded-md border-2 border-gray-400" href="{{url_for('main.recipe_page', recipe_id=result['recipe_id'])}}"> 
+                            <img class="object-cover rounded-md w-full h-44" src="{{ result['photo'] }}" alt="Image" >
+                            <div class="flex flex-col p-2 ">
+                                <div class="font-light text-gray-600">{{result['category']}}</div>
+                                <div class="font-medium ">{{result['title']}}</div>
+                            </div>
+                        </a>
+                    {% endfor %}
+                {% endif %}
+        </div>
     </div>
 </body>
 </html>
