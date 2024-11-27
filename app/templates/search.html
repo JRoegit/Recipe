@@ -1,30 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recipe Search</title>
-    <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}">
-    <link rel="stylesheet" href="{{url_for('static',filename='global.css')}}">
-</head>
-<body class="flex flex-col items-center">
-    <!-- Navbar -->
-    <div class="w-full border-b-2 border-gray-200 h-14">
-        <div class="mx-auto w-full h-full max-w-screen-lg flex flex-row gap-2  font-semibold">
-            <img class="size-12 object-fit my-auto" src="{{url_for('static', filename='recipelogo.png')}}">
+{% extends 'base.html' %}
 
-            <form action="/recipes/search" method="POST" class=" ml-auto my-auto">
-                <input type="text" placeholder="What's for dinner?" class="border-2 border-gray-100 rounded-md p-1" name="search">
-                <button type="submit" class="px-2 py-1 bg-violet-400 hover:bg-violet-500 text-white font-medium rounded-md">Search</button>
-            </form>
-            {% if 'username' in session %}
-                <div class="my-auto ml-auto">Welcome {{ session["username"] }}</div>
-            {% else %}
-                <a class="my-auto hover:text-violet-400 ml-auto" href="{{url_for('main.signin_page')}}" >Sign In</a>
-            {% endif %}
-        </div>
-    </div>
-    <!-- Content Container -->
+{% block title %}Search{% endblock %}
+
+{% block content %}
     <div class="mx-auto w-full h-full max-w-screen-lg flex flex-col p-4">
         {% if query %}
         <div class="font-bold text-xl">
@@ -45,5 +23,4 @@
                 {% endif %}
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
